@@ -1,0 +1,23 @@
+{
+  "name": "skil-8",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "dev": "browser-sync start --server --files main.js **/*.js styles.css index.html",
+    "copy:html": "cpy ./*.html ./build/",
+    "copy:js": "cpy ./*.js ./build/",
+    "build": "concurrently npm:copy:*"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.29.3",
+    "concurrently": "^8.2.2",
+    "cpy-cli": "^5.0.0"
+  }
+}
