@@ -1,6 +1,21 @@
 import { formatNumber } from "./lib/helpers.js";
 import { createCartLine, showCartContent } from "./lib/ui.js";
 
+document.addEventListener("DOMContentLoaded", function () {
+  const deleteButtons = document.querySelectorAll(".remove button");
+  showCartContent(false);
+  deleteButtons.forEach(function (button) {
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+      const rowToRemove = event.target.closest("tr");
+      rowToRemove.remove();
+      showCartContent();
+    });
+  });
+
+  updateTotalPrice();
+});
+
 const products = [
   {
     id: 1,
@@ -23,6 +38,27 @@ const products = [
   },
 ];
 
+export function updateTotalPrice() {
+  const cartRows = document.querySelectorAll(".cart .table tbody tr");
+  let total = 0;
+
+  cartRows.forEach((row) => {
+    const priceElement = row.querySelector("td:nth-child(4) .price");
+    const quantityElement = row.querySelector("td:nth-child(2)");
+
+    if (priceElement && quantityElement) {
+      const price = parseFloat(
+        priceElement.textContent.replace("kr.", "").replace(".", "").trim()
+      );
+      const quantity = parseInt(quantityElement.textContent, 10);
+      total += price;
+    }
+  });
+
+  const totalElement = document.querySelector(".cart .table tfoot .price");
+  totalElement.textContent = formatNumber(total);
+}
+
 /** Bæta vöru í körfu */
 function addProductToCart(product, quantity) {
   // Hér þarf að finna `<tbody>` í töflu og setja `cartLine` inn í það
@@ -34,7 +70,6 @@ function addProductToCart(product, quantity) {
   }
 
   // TODO hér þarf að athuga hvort lína fyrir vöruna sé þegar til
-
   const existingProductLine = cartTableBody.querySelector(
     `[data-cart-product-id="${product.id}"]`
   );
@@ -50,7 +85,7 @@ function addProductToCart(product, quantity) {
     );
     const totalProductPrice = product.price * (currentQuantity + quantity);
     totalPriceElement.textContent = formatNumber(totalProductPrice);
-
+    updateTotalPrice();
     return;
   }
 
@@ -58,9 +93,10 @@ function addProductToCart(product, quantity) {
   cartTableBody.appendChild(cartLine);
 
   // Sýna efni körfu
-  showCartContent(true);
+  showCartContent();
 
   // TODO sýna/uppfæra samtölu körfu
+  updateTotalPrice();
 }
 
 function submitHandler(event) {
