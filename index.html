@@ -75,7 +75,7 @@
       <section>
         <h2>Karfa</h2>
         <div class="cart">
-          <p class="empty-message">Ekkert í körfu.</p>
+          <p class="empty-message hidden">Ekkert í körfu.</p>
           <!-- eyddi 'eitthvað í körfu' því það var bara ljótt að það var til staðar þegar eitthvað var í körfu-->
 
           <table class="table" id="cart">
@@ -111,7 +111,7 @@
           </table>
         </div>
 
-        <form method="post">
+        <form class="checkout-form" method="post">
           <div class="form-field">
             <label for="name">Nafn:</label>
             <input type="text" name="name" id="name" />
@@ -123,7 +123,7 @@
           <button>Ganga frá kaupum</button>
         </form>
       </section>
-      <section class="receipt">
+      <section class="receipt hidden">
         <h2>Kvittun</h2>
         <p>Takk fyrir að versla hjá okkur!</p>
         <p><a href=".">Kaupa meira</a>.</p>

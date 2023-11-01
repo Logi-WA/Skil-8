@@ -3,17 +3,40 @@ import { createCartLine, showCartContent } from "./lib/ui.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   const deleteButtons = document.querySelectorAll(".remove button");
-  showCartContent(false);
   deleteButtons.forEach(function (button) {
     button.addEventListener("click", function (event) {
       event.preventDefault();
       const rowToRemove = event.target.closest("tr");
       rowToRemove.remove();
       showCartContent();
+      updateTotalPrice();
     });
   });
 
-  updateTotalPrice();
+  document
+    .querySelector(".checkout-form")
+    .addEventListener("submit", function (event) {
+      event.preventDefault();
+      const nameInput = document.getElementById("name");
+      const addressInput = document.getElementById("address");
+
+      if (!nameInput.value.trim() || !addressInput.value.trim()) {
+        alert("Vinsamlegast fylltu út bæði nafn og heimilisfang");
+        return;
+      }
+
+      document.querySelector(".cart").classList.add("hidden");
+      document.querySelector(".checkout-form").classList.add("hidden");
+
+      document.querySelector(".receipt").classList.remove("hidden");
+    });
+
+  document
+    .querySelector(".receipt a")
+    .addEventListener("click", function (event) {
+      event.preventDefault();
+      location.reload();
+    });
 });
 
 const products = [
