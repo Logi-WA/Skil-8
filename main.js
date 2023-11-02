@@ -1,3 +1,8 @@
+/***********************************************************************************************
+ * Verkefni 8 - JS #2
+ * Logi Arnarsson
+ * 01.11.2023
+ **********************************************************************************************/
 import { formatNumber } from "./lib/helpers.js";
 import { createCartLine, showCartContent } from "./lib/ui.js";
 
@@ -61,6 +66,7 @@ const products = [
   },
 ];
 
+/** Uppfærir verði körfunnar. */
 export function updateTotalPrice() {
   const cartRows = document.querySelectorAll(".cart .table tbody tr");
   let total = 0;
@@ -122,6 +128,7 @@ function addProductToCart(product, quantity) {
   updateTotalPrice();
 }
 
+/** Event handler fyrir þegar ýtt er á "Bæta í körfu" */
 function submitHandler(event) {
   // Komum í veg fyrir að form submiti
   event.preventDefault();
@@ -158,5 +165,3 @@ for (const form of Array.from(addToCartForms)) {
   // Bæta submit event listener við hvert
   form.addEventListener("submit", submitHandler);
 }
-
-// TODO bæta við event handler á form sem submittar pöntun
